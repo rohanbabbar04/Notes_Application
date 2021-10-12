@@ -10,8 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Notes_Application">
         <activity android:name=".UpdateNoteActivity"
+            android:parentActivityName=".MainActivity"
             android:exported="true"/>
         <activity android:name=".AddNoteActivity"
+            android:parentActivityName=".MainActivity"
             android:exported="true"/>
         <activity android:name=".MainActivity">
             <intent-filter>
