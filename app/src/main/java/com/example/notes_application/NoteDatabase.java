@@ -20,35 +20,8 @@ public abstract class NoteDatabase extends RoomDatabase {
     public synchronized static NoteDatabase getInstance(Context context) {
         instance = Room.databaseBuilder(context,NoteDatabase.class,"note_database")
                 .fallbackToDestructiveMigration()
-                .addCallback(roomCallBack)
                 .build();
 
         return instance;
-    }
-
-    private static RoomDatabase.Callback roomCallBack = new RoomDatabase.Callback() {
-        @Override
-        public void onCreate(@NonNull @NotNull SupportSQLiteDatabase db) {
-            super.onCreate(db);
-            new PopulateDbAsyncTask(instance).execute();
-        }
-    };
-
-    private static class PopulateDbAsyncTask extends AsyncTask<Void,Void,Void> {
-        private NoteDao noteDao;
-
-        public PopulateDbAsyncTask(NoteDatabase noteDatabase) {
-            this.noteDao = noteDatabase.noteDao();
-        }
-        @Override
-        protected Void doInBackground(Void... voids) {
-            noteDao.Insert(new Note("Title 1","Description 1"));
-            noteDao.Insert(new Note("Title 2","Description 2"));
-            noteDao.Insert(new Note("Title 3","Description 3"));
-            noteDao.Insert(new Note("Title 4","Description 4"));
-            noteDao.Insert(new Note("Title 5","Description 5"));
-            noteDao.Insert(new Note("Title 4567","Description 349"));
-            return null;
-        }
     }
 }
