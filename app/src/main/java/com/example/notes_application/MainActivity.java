@@ -75,22 +75,30 @@ public class MainActivity extends AppCompatActivity {
         addResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
             @Override
             public void onActivityResult(ActivityResult result) {
-                String noteTitle = result.getData().getStringExtra("noteTitle");
-                String noteDescription = result.getData().getStringExtra("noteDescription");
-                Note note = new Note(noteTitle,noteDescription);
-                noteViewModel.insert(note);
+                if (result.getResultCode() == RESULT_OK && result.getData()!=null) {
+                    String noteTitle = result.getData().getStringExtra("noteTitle");
+                    String noteDescription = result.getData().getStringExtra("noteDescription");
+                    if (noteDescription != null && noteTitle != null) {
+                        Note note = new Note(noteTitle, noteDescription);
+                        noteViewModel.insert(note);
+                    }
+                }
             }
         });
 
         updateResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
             @Override
             public void onActivityResult(ActivityResult result) {
-                String noteTitle = result.getData().getStringExtra("lastTitle");
-                String noteDescription = result.getData().getStringExtra("lastDescription");
-                int id = result.getData().getIntExtra("lastId",-1);
-                Note note = new Note(noteTitle,noteDescription);
-                note.setId(id);
-                noteViewModel.update(note);
+                if (result.getResultCode() == RESULT_OK && result.getData()!=null) {
+                    String noteTitle = result.getData().getStringExtra("lastTitle");
+                    String noteDescription = result.getData().getStringExtra("lastDescription");
+                    if (noteTitle != null && noteDescription != null) {
+                        int id = result.getData().getIntExtra("lastId", -1);
+                        Note note = new Note(noteTitle, noteDescription);
+                        note.setId(id);
+                        noteViewModel.update(note);
+                    }
+                }
             }
         });
 

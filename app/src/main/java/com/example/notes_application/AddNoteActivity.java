@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.util.Objects;
 
@@ -36,7 +37,24 @@ public class AddNoteActivity extends AppCompatActivity {
         buttonOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveNote();
+                String title = editTextTitle.getText().toString();
+                String description = editTextDescription.getText().toString();
+                if (title.isEmpty() && description.isEmpty()) {
+                    Toast.makeText(AddNoteActivity.this,"Add Title and Description",Toast.LENGTH_SHORT).show();
+                }else if (title.isEmpty()) {
+                    Toast.makeText(AddNoteActivity.this,"Add Title",Toast.LENGTH_SHORT).show();
+                }else if (description.isEmpty()) {
+                    Toast.makeText(AddNoteActivity.this,"Add Description",Toast.LENGTH_SHORT).show();
+                }else {
+                    saveNote();
+                    finish();
+                }
+            }
+        });
+
+        buttonCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 finish();
             }
         });
